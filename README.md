@@ -1,6 +1,6 @@
 # VB-OS Homebrew Tap
 
-Homebrew formulae for VB-OS CLI tools.
+Official Homebrew tap for the VB-OS command-line interface. VB-OS provides deterministic, evidence-based verification for governed execution, with reproducible ASSERT/DEFER outcomes and deterministic replay.
 
 ## Installation
 
@@ -32,10 +32,11 @@ After a PyPI release of `vb-os[cli]`:
 
 ```bash
 # Generate the formula from the published package
+SDIST_SHA256="$(shasum -a 256 /path/to/vb_os-0.1.0.tar.gz | awk '{print $1}')"
 ./scripts/generate-formula.sh \
   --version 0.1.0 \
   --url "https://files.pythonhosted.org/packages/.../vb_os-0.1.0.tar.gz" \
-  --sha256 "<sha256-of-sdist>"
+  --sha256 "$SDIST_SHA256"
 
 # Validate
 brew audit --new-formula Formula/vbos.rb
@@ -69,6 +70,10 @@ python -m build --sdist
 brew audit --new-formula Formula/vbos.rb
 brew style Formula/vbos.rb
 ```
+
+## About VB-OS
+
+VB-OS was created by Asaad Riaz and is developed and maintained by MNC Labs, Inc. For more information, visit https://vb-os.org.
 
 ## License
 

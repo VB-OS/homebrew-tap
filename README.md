@@ -1,79 +1,34 @@
 # VB-OS Homebrew Tap
 
-Official Homebrew tap for the VB-OS command-line interface. VB-OS provides deterministic, evidence-based verification for governed execution, with reproducible ASSERT/DEFER outcomes and deterministic replay.
+Official Homebrew tap for the [VB-OS](https://vb-os.org) command-line interface.
 
-## Installation
+## Install
 
 ```bash
 brew tap VB-OS/tap
 brew install vbos
 ```
 
-## Verification
+## Verify
 
 ```bash
 vbos --version
 ```
 
-## Formula Generation
-
-Formulae are generated from published PyPI releases using the generation tooling
-in `scripts/`. See the [release procedure](#release-procedure) below.
-
-### Prerequisites
-
-- Python 3.10+
-- `pip` (for dependency resolution)
-- Homebrew (for `brew audit`, `brew style` validation)
-
-### Release Procedure
-
-After a PyPI release of `vb-os[cli]`:
+## Usage
 
 ```bash
-# Generate the formula from the published package
-SDIST_SHA256="$(shasum -a 256 /path/to/vb_os-0.1.0.tar.gz | awk '{print $1}')"
-./scripts/generate-formula.sh \
-  --version 0.1.0 \
-  --url "https://files.pythonhosted.org/packages/.../vb_os-0.1.0.tar.gz" \
-  --sha256 "$SDIST_SHA256"
-
-# Validate
-brew audit --new-formula Formula/vbos.rb
-brew style Formula/vbos.rb
-
-# Install and test
-brew install --build-from-source Formula/vbos.rb
-brew test Formula/vbos.rb
-
-# Commit and push
-git add Formula/vbos.rb
-git commit -m "vbos 0.1.0"
-git push origin main
+vbos verify --project my-project --boundary payment-authorization \
+  --evidence '{"transaction_amount": 15000, "account_balance": 42000}'
 ```
 
-### Pre-Publication Testing
-
-For local development and validation before PyPI publication:
-
-```bash
-# Build a local sdist
-cd /path/to/vb-os-python-sdk
-python -m build --sdist
-
-# Generate formula from local sdist
-./scripts/generate-formula.sh \
-  --version 0.1.0 \
-  --local-sdist dist/vb_os-0.1.0.tar.gz
-
-# Validate the generated formula
-brew audit --new-formula Formula/vbos.rb
-brew style Formula/vbos.rb
-```
+See the [CLI documentation](https://docs.vb-os.org/cli/installation/) for the full command reference.
 
 ## About VB-OS
 
-VB-OS was created by Asaad Riaz and is developed and maintained by MNC Labs, Inc. For more information, visit https://vb-os.org.
+VB-OS is deterministic execution authority infrastructure — binary ASSERT/DEFER verdicts, replayable from immutable artifacts.
+
+Created by Asaad Riaz. Developed and maintained by [MNC Labs, Inc.](https://vb-os.org)
 
 ## License
 
